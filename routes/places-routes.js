@@ -2,7 +2,7 @@
 const express = require('express');
 
 
-const placesControllers = require('./../Controllers/places-controller');
+const placesControllers = require('../controllers/places-controllers');
 
 const router = express.Router();
 
@@ -12,9 +12,9 @@ router.get('/', placesControllers.getAllPlaces);
 
  router.get('/users/:uid', placesControllers.getUsersById)
 
- router.post('/', placesControllers.savePlaces)
+ router.post('/', placesControllers.savePlace);
 
- router.patch('/:pid', placesControllers.updatePlaces);
+ router.patch('/:pid', placesControllers.updatePlace);
 
  router.delete('/:pid', placesControllers.deletePlace);
 

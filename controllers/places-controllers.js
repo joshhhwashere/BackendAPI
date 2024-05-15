@@ -1,4 +1,4 @@
-const HttpError = require('../MODELS/http-error');
+const HttpError = require('../models/http-error');
 const {v4: uuiv4} = require('uuid');
 
 const DUMMY_PLACES = [
@@ -39,7 +39,8 @@ const getUserById = (req, res, next)=>{
     }
     res.json({places});
  }
- const savePlaces = (req, res, next)=>{
+
+ const savePlace = (req, res, next)=>{
     const {id, title, creator} = req.body;
     const createdPlace = {
         id : uuiv4(),
@@ -51,7 +52,8 @@ const getUserById = (req, res, next)=>{
     res.status(201).json({place:createdPlace});
 
  }
- const updatePlaces = (req, res, next)=>{
+
+ const updatePlace = (req, res, next)=>{
     const {title} = req.body;
     const PLaceId = req.params.pid;
 
@@ -64,6 +66,7 @@ const getUserById = (req, res, next)=>{
 
     res.status(200).json({place: updatedPlace});
  };
+
  const deletePlace = (req, res, next)=>{
     const PlaceId = req.params.pid;
     
@@ -74,6 +77,6 @@ const getUserById = (req, res, next)=>{
 exports.getAllPlaces = getAllPlaces;
 exports.getPlacesById = getPlacesById;
 exports.getUsersById = getUserById;
-exports.savePlaces = savePlaces;
-exports.updatePlaces = updatePlaces;
+exports.savePlace = savePlace;
+exports.updatePlace = updatePlace;
 exports.deletePlace = deletePlace;

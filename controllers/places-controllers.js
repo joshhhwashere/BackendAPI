@@ -1,6 +1,5 @@
-
-const HttpError = require('../models/http-error');
-const uuid = require('uuid');
+const HttpError = require('../MODELS/http-error');
+const {v4: uuiv4} = require('uuid');
 
 const DUMMY_PLACES = [
     {
@@ -15,64 +14,66 @@ const DUMMY_PLACES = [
     }
 ];
 
-const getAllPlaces = (req, res, next)=>{
-    res.json({places : DUMMY_PLACES});
-};
-
-const getPlacesById = (req, res, next) => {    
+const getAllPlaces =  (req, res, next)=>{
+    res.json({DUMMY_PLACES});
+}
+const getPlacesById = (req, res, next) => {
     const place = DUMMY_PLACES.find(p => {
         return p.id === req.params.pid;
     });
-    if (!place){        
-        const error = new Error('Lugar no existe para el id especificado');
-        error.code = 404;
-        next(error);
-    }
-    else{
+    if(!place){
+       const error = new Error('Lugar no existe para el ID especificado');
+       error.code = 404;
+       next(error);
+    }else{
         res.json({place});
-    }    
-};
-
-const getPlacesByUsers = (req, res, next)=>{
-    const places = DUMMY_PLACES.find(p => {
-        return p.creator === req.params.uid
-    });    
-
-    if (!places){
-        const error = new HttpError('Lugar no existe para el id de usuario especificado', 404);
-        throw error;
+        console.log(place);
     }
-
+}
+const getUserById = (req, res, next)=>{
+    const places = DUMMY_PLACES.find(p=>{
+        return p.creator === req.params.uid
+    });
+    if(!places){
+        throw new HttpError('Lugar no existe para el ID de usuario especificado', 404);
+    }
     res.json({places});
-};
-
-const postPlaces = (req, res, next)=>{
-    const {title, creator} = req.body;
+ }
+ const savePlaces = (req, res, next)=>{
+    const {id, title, creator} = req.body;
     const createdPlace = {
-        id: uuid.v4(),
-        title,
-        creator
+        id : uuiv4(),
+        title: title, 
+        creator: creator
     };
+    console.log(createdPlace);
     DUMMY_PLACES.push(createdPlace);
     res.status(201).json({place:createdPlace});
-};
 
-const updatePlaces = (req, res, next)=>{
-    const { title } = req.body;
-    const placesId = req.params.id;
+ }
+ const updatePlaces = (req, res, next)=>{
+    const {title} = req.body;
+    const PLaceId = req.params.pid;
 
-    const updatePlaces = {... DUMMY_PLACES.find(p => p.id === placesId)};
-    const placeIndex = DUMMY_PLACES.findIndex(p => p.id === placeId);
+    const updatedPlace = {... DUMMY_PLACES.find(p => p.id === PLaceId)};
+    const placesIndex = DUMMY_PLACES.findIndex(p => p.id === PLaceId);
 
     updatedPlace.title = title;
 
-    DUMMY_PLACES[placeIndex] = updatePlace;
+    DUMMY_PLACES[placesIndex] = updatedPlace;
 
     res.status(200).json({place: updatedPlace});
-};
+ };
+ const deletePlace = (req, res, next)=>{
+    const PlaceId = req.params.pid;
+    
+ }
 
+
+//Exportamos
 exports.getAllPlaces = getAllPlaces;
 exports.getPlacesById = getPlacesById;
-exports.getPlacesByUsers = getPlacesByUsers;
-exports.postPlaces = postPlaces;
-exports.updatedPlaces = updatePlaces;
+exports.getUsersById = getUserById;
+exports.savePlaces = savePlaces;
+exports.updatePlaces = updatePlaces;
+exports.deletePlace = deletePlace;

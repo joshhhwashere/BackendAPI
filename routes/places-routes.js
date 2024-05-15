@@ -1,17 +1,21 @@
+//Importaciones
 const express = require('express');
 
-const placesControllers = require('../controllers/places-controllers');
+
+const placesControllers = require('./../Controllers/places-controller');
 
 const router = express.Router();
 
 router.get('/', placesControllers.getAllPlaces);
 
-router.get('/:pid', placesControllers.getPlacesById);
+ router.get('/:pid', placesControllers.getPlacesById);
 
-router.get('/users/:uid', placesControllers.getPlacesByUsers);
+ router.get('/users/:uid', placesControllers.getUsersById)
 
-router.post('/', placesControllers.postPlaces);
+ router.post('/', placesControllers.savePlaces)
 
-router.patch('/pid',placesControllers.updatePlaces);
+ router.patch('/:pid', placesControllers.updatePlaces);
+
+ router.delete('/:pid', placesControllers.deletePlace);
 
 module.exports = router;
